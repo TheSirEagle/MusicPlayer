@@ -2,6 +2,7 @@ package com.example.hp.musicplayer;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -48,43 +49,61 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ContentResolver contentResolver = getContentResolver();
+        Uri myUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = contentResolver.query(myUri, null, null, null, null);
+        if (cursor == null) {
 
-        Uri myUri = Uri.parse("/storage/sdcard0/music/song.mp3");
-        final MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaPlayer.setDataSource(getApplicationContext(), myUri);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else if (!cursor.moveToFirst()) {
+
+        } else {
+            int titleColumn = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int idColumn = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            do {
+                long thisId = cursor.getLong(idColumn);
+                String thisTitle = cursor.getString(titleColumn);
+            } while (cursor.moveToNext());
+
         }
-        try {
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
-    final Button play = findViewById(R.id.play);
-    final Button pause = findViewById(R.id.pause);
-
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mediaPlayer.start();
-            }
-
-        });
-
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mediaPlayer.pause();
-            }
-        });
-
-
-
-}
+//        long id = ;
+//        Uri contentUri = ContentUris.withAppendedId(
+//                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+//        final MediaPlayer mediaPlayer = new MediaPlayer();
+//        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        try {
+//            mediaPlayer.setDataSource(getApplicationContext(), contentUri);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            mediaPlayer.prepare();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        final Button play = findViewById(R.id.play);
+//        final Button pause = findViewById(R.id.pause);
+//
+//        play.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mediaPlayer.start();
+//            }
+//
+//        });
+//
+//        pause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mediaPlayer.pause();
+//            }
+//        });
+//
+//
+//    }
 }
 
 

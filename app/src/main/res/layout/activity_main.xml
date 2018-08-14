@@ -7,34 +7,62 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ListView
-        android:id="@+id/ListView"
+    <ImageButton
+        android:id="@+id/songList"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:layout_weight="1">
-
-    </ListView>
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        app:srcCompat="@mipmap/songs" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/play"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Play" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/pause"
+            <ImageButton
+                android:id="@+id/prev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/screen_background_light_transparent"
+                app:srcCompat="@mipmap/prev" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Pause" />
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/play"
+                style="@android:style/Widget.ImageButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/screen_background_light_transparent"
+                android:visibility="visible"
+                app:srcCompat="@mipmap/play_pause" />
+
+            <ImageButton
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/screen_background_light_transparent"
+                app:srcCompat="@mipmap/next" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

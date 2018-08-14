@@ -7,15 +7,19 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -27,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST = 1;
 
     ArrayList<Long> arrayList;
-    ArrayList<String> songList;
+    ArrayList songList;
     public int currentSongIndex = -1;
 
     List listView;
     MediaPlayer mediaPlayer;
     ArrayAdapter<String> adapter;
+    private boolean isMovingseekBar = false;
 
 
     @Override
@@ -44,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
         songList = new ArrayList<>();
 
-        String thisTitle;
+        String thisTitle = null;
         long thisId;
 
         ContentResolver contentResolver = getContentResolver();
@@ -68,10 +73,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         final ImageButton play = findViewById(R.id.play);
-        final ImageButton pause = findViewById(R.id.pause);
         final ImageButton next = findViewById(R.id.next);
         final ImageButton previous = findViewById(R.id.prev);
-        final ImageButton songs = findViewById(R.id.songList);
+        final TextView currentSongName = findViewById(R.id.name);
+        final Spinner songListSpinner = findViewById(R.id.spinner);
+//        final ImageButton open = findViewById(R.id.openSpinner);
+
+
+
+        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,songList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        songListSpinner.setAdapter(adapter);
+
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentSongIndex == -1) {
                     currentSongIndex++;
                     playSong(currentSongIndex);
-                }else if (mediaPlayer.isPlaying()){
+                } else if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                 } else {
                     mediaPlayer.start();
@@ -89,12 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-//        pause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mediaPlayer.pause();
-//            }
-//        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,16 +115,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        songs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainActivity.this,
-                        SongList.class);
-                startActivity(intent);
-            }
-        });
-
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 playSong(currentSongIndex);
             }
         });
-
 
     }
 

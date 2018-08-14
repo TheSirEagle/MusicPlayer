@@ -19,8 +19,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\HP\Desktop\MusicPlayer\Songs.png" />
-                                      <entry key="outputName" value="songs" />
+                                      <entry key="imageAsset" value="C:\Users\HP\Desktop\MusicPlayer\Back2.png" />
+                                      <entry key="outputName" value="previous_new" />
                                     </map>
                                   </option>
                                 </PersistentState>
